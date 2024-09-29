@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -21,5 +22,9 @@ public class ClientServiceImplTest {
         request.setEmail("bimbim@test.com");
         request.setPassword("1234");
         RegisterResponse response = clientService.register(request);
+        assertThat(response).isNotNull();
+        assertThat(response.getMessage()).isEqualTo("Client registered successfully");
     }
+
+
 }

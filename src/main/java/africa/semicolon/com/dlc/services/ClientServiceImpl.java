@@ -7,6 +7,7 @@ import africa.semicolon.com.dlc.dtos.response.RegisterResponse;
 import africa.semicolon.com.dlc.exceptions.IncorrectPasswordException;
 import africa.semicolon.com.dlc.exceptions.UserAlreadyExistException;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,17 @@ import org.springframework.stereotype.Service;
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
-
+    private ModelMapper modelMapper;
     @Override
     public RegisterResponse register(RegisterRequest request) {
-
-        return null;
+        String email = request.getEmail();
+        validate(email);
+        validateRegistration(request);
+        Client client = modelMapper.map(request, Client.class);
+        client =clientRepository.save(client);
+        var response = modelMapper.map(client, RegisterResponse.class);
+        response.setMessage("Client registered successfully");
+        return response;
     }
 
     private void validate(String email) {
