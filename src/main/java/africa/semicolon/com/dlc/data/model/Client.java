@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -18,4 +20,8 @@ public class Client {
     private String homeAddress;
     private String password;
     private String phoneNumber;
+    @OneToMany
+    @JoinColumn(name = "shoppingcart_id")
+    private List<ShoppingCart> shoppingCartList;
+
 }

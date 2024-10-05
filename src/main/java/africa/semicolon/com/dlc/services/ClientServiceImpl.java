@@ -29,6 +29,11 @@ public class ClientServiceImpl implements ClientService {
         return response;
     }
 
+    @Override
+    public void deleteAll() {
+        clientRepository.deleteAll();
+    }
+
     private void validate(String email) {
         for (Client user : clientRepository.findAll()) {
             if (user.getEmail().equals(email.toLowerCase())) {
