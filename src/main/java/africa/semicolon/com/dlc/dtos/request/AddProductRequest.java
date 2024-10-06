@@ -1,4 +1,4 @@
-package africa.semicolon.com.dlc.dtos.response;
+package africa.semicolon.com.dlc.dtos.request;
 
 import africa.semicolon.com.dlc.data.model.ProductCategory;
 import jakarta.persistence.EnumType;
