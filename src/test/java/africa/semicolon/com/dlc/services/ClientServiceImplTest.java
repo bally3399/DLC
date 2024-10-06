@@ -7,7 +7,7 @@ import africa.semicolon.com.dlc.data.model.ShoppingCart;
 import africa.semicolon.com.dlc.data.repository.ShoppingCartRepository;
 import africa.semicolon.com.dlc.dtos.request.AddProductToShoppingCartRequest;
 import africa.semicolon.com.dlc.dtos.request.RegisterRequest;
-import africa.semicolon.com.dlc.dtos.response.AddProductRequest;
+import africa.semicolon.com.dlc.dtos.request.AddProductRequest;
 import africa.semicolon.com.dlc.dtos.response.AddProductResponse;
 import africa.semicolon.com.dlc.dtos.response.AddProductToShoppingCartResponse;
 import africa.semicolon.com.dlc.dtos.response.RegisterResponse;
