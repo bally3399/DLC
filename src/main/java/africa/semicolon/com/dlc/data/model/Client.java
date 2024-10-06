@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,8 +21,7 @@ public class Client {
     private String homeAddress;
     private String password;
     private String phoneNumber;
-    @OneToMany
-    @JoinColumn(name = "shoppingcart_id")
-    private List<ShoppingCart> shoppingCartList;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private ShoppingCart cart;
 
 }
