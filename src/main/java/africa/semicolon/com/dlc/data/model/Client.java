@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,6 @@ public class Client {
     private String phoneNumber;
     @OneToMany
     @JoinColumn(name = "shoppingcart_id")
-    private List<ShoppingCart> shoppingCartList;
+    private List<ShoppingCart> shoppingCartList = new ArrayList<>();
 
 }
