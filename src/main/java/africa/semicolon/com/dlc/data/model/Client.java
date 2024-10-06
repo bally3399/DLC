@@ -21,8 +21,7 @@ public class Client {
     private String homeAddress;
     private String password;
     private String phoneNumber;
-    @OneToMany
-    @JoinColumn(name = "shoppingcart_id")
-    private List<ShoppingCart> shoppingCartList = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private ShoppingCart cart;
 
 }

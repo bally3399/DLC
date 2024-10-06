@@ -4,17 +4,18 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "items")
+@Table(name = "shoppingcarts")
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shoppingCartId;
-    @OneToMany
-    @JoinColumn(name = "item_id")
-    private List<Item> items;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "products")
+    private List<Product> products = new ArrayList<>();
 }
