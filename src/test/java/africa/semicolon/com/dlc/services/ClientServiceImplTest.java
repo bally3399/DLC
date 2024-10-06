@@ -6,11 +6,10 @@ import africa.semicolon.com.dlc.data.model.ProductCategory;
 import africa.semicolon.com.dlc.data.model.ShoppingCart;
 import africa.semicolon.com.dlc.data.repository.ShoppingCartRepository;
 import africa.semicolon.com.dlc.dtos.request.AddProductToShoppingCartRequest;
+import africa.semicolon.com.dlc.dtos.request.LoginRequest;
 import africa.semicolon.com.dlc.dtos.request.RegisterRequest;
 import africa.semicolon.com.dlc.dtos.request.AddProductRequest;
-import africa.semicolon.com.dlc.dtos.response.AddProductResponse;
-import africa.semicolon.com.dlc.dtos.response.AddProductToShoppingCartResponse;
-import africa.semicolon.com.dlc.dtos.response.RegisterResponse;
+import africa.semicolon.com.dlc.dtos.response.*;
 import africa.semicolon.com.dlc.exceptions.UserAlreadyExistException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -159,6 +158,19 @@ public class ClientServiceImplTest {
         assertThat(addSecondProductResponse.getShoppingCart().getProducts()).hasSize(2);
         assertThat(addSecondProductResponse.getShoppingCart().getProducts().get(0).getProductName()).isEqualTo("Italian Shoe");
         assertThat(addSecondProductResponse.getShoppingCart().getProducts().get(1).getProductName()).isEqualTo("Second Product");
+    }
+
+    @Test
+    public void testAdminCanLogin(){
+        RegisterResponse response = registerResponse;
+        assertThat(response).isNotNull();
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("bimbim@test.com");
+        loginRequest.setPassword("1234");
+        LoginResponse loginResponse = clientService.login(loginRequest);
+        assertThat(loginResponse).isNotNull();
+        assertThat(loginResponse.getMessage()).isEqualTo("Login Successful");
     }
 
 }

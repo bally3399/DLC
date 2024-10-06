@@ -1,6 +1,8 @@
 package africa.semicolon.com.dlc.services;
 
+import africa.semicolon.com.dlc.dtos.request.LoginRequest;
 import africa.semicolon.com.dlc.dtos.request.RegisterRequest;
+import africa.semicolon.com.dlc.dtos.response.LoginResponse;
 import africa.semicolon.com.dlc.dtos.response.RegisterAdminResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,5 +31,17 @@ public class AdminServiceImplTest {
         assertThat(registerAdminResponse.getMessage()).isEqualTo("Admin registered successfully");
     }
 
+    @Test
+    public void testAdminCanLogin(){
+        RegisterAdminResponse adminResponse = registerAdminResponse;
+        assertThat(adminResponse).isNotNull();
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("bally@gmail.com");
+        loginRequest.setPassword("password");
+        LoginResponse loginResponse = adminService.login(loginRequest);
+        assertThat(loginResponse).isNotNull();
+        assertThat(loginResponse.getMessage()).isEqualTo("Login Successful");
+    }
 }
 
