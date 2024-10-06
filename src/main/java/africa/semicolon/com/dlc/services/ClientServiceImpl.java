@@ -1,5 +1,6 @@
 package africa.semicolon.com.dlc.services;
 
+import africa.semicolon.com.dlc.data.model.Admin;
 import africa.semicolon.com.dlc.data.model.Client;
 import africa.semicolon.com.dlc.data.model.Product;
 import africa.semicolon.com.dlc.data.model.ShoppingCart;
@@ -7,16 +8,22 @@ import africa.semicolon.com.dlc.data.repository.ClientRepository;
 import africa.semicolon.com.dlc.data.repository.ProductRepository;
 import africa.semicolon.com.dlc.data.repository.ShoppingCartRepository;
 import africa.semicolon.com.dlc.dtos.request.AddProductToShoppingCartRequest;
+import africa.semicolon.com.dlc.dtos.request.LoginRequest;
 import africa.semicolon.com.dlc.dtos.request.RegisterRequest;
 import africa.semicolon.com.dlc.dtos.response.AddProductToShoppingCartResponse;
+import africa.semicolon.com.dlc.dtos.response.LoginResponse;
 import africa.semicolon.com.dlc.dtos.response.RegisterResponse;
 import africa.semicolon.com.dlc.exceptions.IncorrectPasswordException;
+import africa.semicolon.com.dlc.exceptions.InvalidCredentialException;
 import africa.semicolon.com.dlc.exceptions.UserAlreadyExistException;
+import africa.semicolon.com.dlc.utils.JwtUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -83,9 +90,40 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findById(id)
                 .orElseThrow(()-> new UserAlreadyExistException("Client already exist"));
     }
+
     @Override
     public Product findProductById(Long id) {
         return productService.findById(id);
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+        return checkLoginDetail(email, password);
+    }
+
+    private LoginResponse checkLoginDetail(String email, String password) {
+        Optional<Client> optionalUser = clientRepository.findByEmail(email);
+        if (optionalUser.isPresent()){
+            Client client = optionalUser.get();
+            if (client.getPassword().equals(password)) {
+                return loginResponseMapper(client);
+            } else {
+                throw new InvalidCredentialException("Invalid username or password");
+            }
+        } else {
+            throw new InvalidCredentialException("Invalid username or password");
+        }
+    }
+
+    private LoginResponse loginResponseMapper(Client user) {
+        LoginResponse loginResponse = new LoginResponse();
+        String accessToken = JwtUtils.generateAccessToken(user.getId());
+        BeanUtils.copyProperties(user, loginResponse);
+        loginResponse.setJwtToken(accessToken);
+        loginResponse.setMessage("Login Successful");
+        return loginResponse;
     }
 
 }
